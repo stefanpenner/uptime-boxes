@@ -1,0 +1,3 @@
+{{#each model key="name" as |server|}}
+  {{server-uptime name=server.name days=server.days }}
+{{/each}}
