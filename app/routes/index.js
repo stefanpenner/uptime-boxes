@@ -13,7 +13,9 @@ function server(name) {
 
 export default Ember.Route.extend({
   model() {
-    return servers();
+    return {
+      servers: servers()
+    };
   },
 
   afterModel(model) {
@@ -24,8 +26,12 @@ export default Ember.Route.extend({
 function tick(model) {
   console.log('tick')
   self.requestAnimationFrame(_ => {
-    let s = servers();
-    model.replace(0, s.length, s);
+    console.time('render');
+    Ember.set(model, 'servers', servers());
+    Ember.run.schedule('afterRender', function() {
+      console.timeEnd('render');
+
+    });
 
     tick(model);
   });
